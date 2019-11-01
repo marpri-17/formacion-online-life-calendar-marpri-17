@@ -11,9 +11,15 @@ class App extends React.Component {
       actualDate: "",
       userData: [{
         "2019-10-25": "bad"
+      }, {
+        "2019-10-29": "good",
+        "message": "Having"
+      }, {
+        "2019-10-28": "bad"
       },
       {
-        "2019-10-31": "good"
+        "2019-10-31": "good",
+        "message": "It's Hallowen!"
       }]
     }
 
@@ -39,12 +45,20 @@ class App extends React.Component {
 
   }
 
+  // handleSaveData(ev) {
+  //   ev.preventDefault();
+  //   ev.persist();
+  //   const formElement = ev.target.parentElement;
+  //   const date;
+  //   console.log(date)
+  // }
+
   renderMoodList() {
     return (<MoodList userData={this.state.userData} />)
   }
 
   renderFormDay() {
-    return (<EditorForm actualDate={this.state.actualDate} userData={this.state.userData} />)
+    return (<EditorForm actualDate={this.state.actualDate} userData={this.state.userData} handleSaveData={this.handleSaveData} handleChangeDate={this.handleChangeDate} />)
   }
 
   render() {
