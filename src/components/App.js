@@ -23,6 +23,7 @@ class App extends React.Component {
       }]
     }
 
+    this.handleSaveData = this.handleSaveData.bind(this);
     this.getActualDate = this.getActualDate.bind(this);
     this.renderFormDay = this.renderFormDay.bind(this);
     this.renderMoodList = this.renderMoodList.bind(this);
@@ -35,9 +36,15 @@ class App extends React.Component {
     const getYear = date.getFullYear();
     const currentDay = getYear + "-" + getMonth + "-" + getDay;
     console.log(currentDay)
-    this.setState({
+    const savedData = JSON.parse(localStorage.getItem("LSuserData"));
+    console.log(savedData)
+    savedData ? this.setState({
       actualDate: currentDay,
-    }, () => console.log(this.state))
+      userData: savedData
+    }) :
+      this.setState({
+        actualDate: currentDay,
+      })
   }
 
   componentDidMount() {
@@ -45,20 +52,22 @@ class App extends React.Component {
 
   }
 
-  // handleSaveData(ev) {
-  //   ev.preventDefault();
-  //   ev.persist();
-  //   const formElement = ev.target.parentElement;
-  //   const date;
-  //   console.log(date)
-  // }
+  handleSaveData(newDayConfiguredByUser) {
+    const { userData } = this.state;
+    const newUserData = userData.concat(newDayConfiguredByUser);
+    console.log(newUserData)
+    this.setState({
+      userData: newUserData
+    }, () => localStorage.setItem("LSuserData", JSON.stringify(this.state.userData)))
+
+  }
 
   renderMoodList() {
     return (<MoodList userData={this.state.userData} />)
   }
 
   renderFormDay() {
-    return (<EditorForm actualDate={this.state.actualDate} userData={this.state.userData} handleSaveData={this.handleSaveData} handleChangeDate={this.handleChangeDate} />)
+    return (<EditorForm actualDate={this.state.actualDate} userData={this.state.userData} handleSaveData={this.handleSaveData} />)
   }
 
   render() {

@@ -1,3 +1,56 @@
+.editor {
+  &__form {
+    margin-top: 20px;
+    padding: 0 20px 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 60vw;
+    box-shadow: 0px 3px 7px 0px rgba(0, 0, 0, 0.75);
+
+    &_inputdate {
+      width: 18rem;
+      padding: 2px 2px 2px 2px;
+      margin: 10px;
+      &::-webkit-inner-spin-button {
+        display: none;
+      }
+      &::-webkit-calendar-picker-indicator {
+        color: blue;
+      }
+      &::-webkit-datetime-edit {
+        text-align: center;
+      }
+      &::-webkit-clear-button {
+        padding: 1px;
+        margin-right: 10px;
+      }
+    }
+
+    &_moodtitle {
+      display: flex;
+      flex-direction: column;
+      margin: 5px;
+      line-height: 2rem;
+    }
+    &_buttonsubmit {
+      text-transform: uppercase;
+      font-weight: bold;
+      letter-spacing: 0.1rem;
+      margin: 20px 10px 10px 10px;
+      width: 18rem;
+      padding: 5px;
+      color: blue;
+      cursor: pointer;
+      transition: all 1s;
+      &:disabled {
+        color: #ccccff;
+      }
+    }
+  }
+}
+
 .hidden {
   display: none;
 }

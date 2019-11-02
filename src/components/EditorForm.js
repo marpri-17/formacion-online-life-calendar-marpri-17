@@ -7,11 +7,15 @@ class EditorForm extends React.Component {
         super(props);
         this.state = {
             date: "",
-            message: false,
+            mood: "",
+            message: "",
+            showMessage: false,
         }
-
+        this.buttonSubmit = React.createRef();
         this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleShowMessage = this.handleShowMessage.bind(this);
+        this.handleUserMessageInput = this.handleUserMessageInput.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleChangeDate(ev) {
@@ -32,40 +36,61 @@ class EditorForm extends React.Component {
     }
 
     handleShowMessage(ev) {
+        const button = this.buttonSubmit.current;
+        button.disabled = false;
         const mood = ev.target.value;
         if (mood === "good") {
             this.setState({
-                message: true
+                mood: "good",
+                showMessage: true
             })
         } else if (mood === "bad") {
+            button.focus();
             this.setState({
-                message: false
+                mood: "bad",
+                showMessage: false
             })
         }
     }
 
-    render() {
+    handleUserMessageInput(ev) {
+        this.setState({
+            message: ev.target.value
+        }, () => console.log(this.state))
+    }
 
-        const { actualDate, handleSaveData } = this.props;
+    handleSubmit(ev) {
+        debugger
+        const { handleSaveData } = this.props;
+        ev.preventDefault();
+        const { date, mood, message } = this.state;
+        const newDay = { [date]: mood, "message": message }
+        return handleSaveData(newDay)
+
+    }
+
+    render() {
+        console.log(this.props)
+        const { actualDate } = this.props;
         return (
-            <form>
+            <form onSubmit={this.handleSubmit} className="editor__form">
                 <p>Add new mood for Today</p>
                 <p>{actualDate}</p>
                 <label htmlFor="selected_date">Fecha</label>
-                <input type="date" defaultValue={actualDate} name="selected_date" id="selected_date" onChange={this.handleChangeDate} />
+                <input type="date" className="editor__form_inputdate" defaultValue={actualDate} name="selected_date" onChange={this.handleChangeDate} />
                 {(this.state.date !== "") ? <>
-                    <label htmlFor="mood">Estado de ánimo
-                <label ><input type="radio" id="mood good" className="mood__radio" name="mood" onChange={this.handleShowMessage} value="good" />:)</label>
+                    <label htmlFor="mood" className="editor__form_moodtitle">Estado de ánimo
+                        <label ><input type="radio" id="mood good" className="mood__radio" name="mood" onChange={this.handleShowMessage} value="good" />:)</label>
                         <label><input type="radio" id="mood bad" className="mood__radio" name="mood" onChange={this.handleShowMessage} value="bad" />:(</label>
                     </label>
-                    <button type="submit" onClick={handleSaveData} disabled>guardar</button>
                 </> : ""}
-                {(this.state.message) ?
+                {(this.state.showMessage) ?
                     <label htmlFor="mood_message">Mensaje
-                    <input type="text" name="mood_message" />
+                    <input type="text" name="mood_message" onChange={this.handleUserMessageInput} />
                     </label>
                     : ""
                 }
+                <button to="/" className="editor__form_buttonsubmit" onClick={this.handleSubmit} ref={this.buttonSubmit} disabled > guardar</button>
                 <Link to="/">cancelar</Link>
 
             </form>
