@@ -12,6 +12,7 @@ class EditorForm extends React.Component {
             showMessage: false,
         }
         this.buttonSubmit = React.createRef();
+        this.buttonReturn = React.createRef();
         this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleShowMessage = this.handleShowMessage.bind(this);
         this.handleUserMessageInput = this.handleUserMessageInput.bind(this);
@@ -36,8 +37,8 @@ class EditorForm extends React.Component {
     }
 
     handleShowMessage(ev) {
-        const button = this.buttonSubmit.current;
-        button.disabled = false;
+        const mainButton = this.buttonSubmit.current;
+        mainButton.disabled = false;
         const mood = ev.target.value;
         if (mood === "good") {
             this.setState({
@@ -45,7 +46,7 @@ class EditorForm extends React.Component {
                 showMessage: true
             })
         } else if (mood === "bad") {
-            button.focus();
+            mainButton.focus();
             this.setState({
                 mood: "bad",
                 showMessage: false
@@ -65,6 +66,8 @@ class EditorForm extends React.Component {
         ev.preventDefault();
         const { date, mood, message } = this.state;
         const newDay = { [date]: mood, "message": message }
+        const buttonReturn = this.buttonReturn.current;
+        buttonReturn.innerHTML = "volver"
         return handleSaveData(newDay)
 
     }
@@ -91,7 +94,7 @@ class EditorForm extends React.Component {
                     : ""
                 }
                 <button to="/" className="editor__form_buttonsubmit" onClick={this.handleSubmit} ref={this.buttonSubmit} disabled > guardar</button>
-                <Link to="/">cancelar</Link>
+                <Link to="/" ref={this.buttonReturn}>cancelar</Link>
 
             </form>
         )

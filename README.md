@@ -13,3 +13,8 @@ Usalo día a día para conocer qué estado de ánimo domina tu vida, o gestina t
 - Usa el botón + para acceder al editor y empezar a guardar tus estados de ánimo.
 
 Basado en [http://sidiostedalimones.com/2014/](http://sidiostedalimones.com/2014/)
+
+
+
+### Apuntes de versión actual
+Cuenta con información "default" para comprobar el funcionamiento

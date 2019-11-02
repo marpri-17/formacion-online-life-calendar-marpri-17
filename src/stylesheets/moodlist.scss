@@ -1,0 +1,65 @@
+.mood {
+  width: 80vw;
+  &__list {
+    //background: blue;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-auto-rows: auto;
+    grid-row-gap: 20px;
+  }
+  &__face {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px black solid;
+    &_facial {
+      font-weight: bold;
+      letter-spacing: 0.1rem;
+      font-size: 1.5rem;
+    }
+  }
+
+  &__editor {
+    &_link {
+      &_text {
+        font-size: 2rem;
+        transition: all 2s ease;
+        color: white;
+        //   &:hover {
+        //     background: red;
+        //   }
+      }
+      &_wrapper {
+        padding: 5px;
+        margin: 12px;
+        background: cadetblue;
+        &:hover {
+          .mood__editor_link_text {
+            animation: loading 0.5s ease forwards;
+          }
+        }
+      }
+    }
+  }
+}
+
+.good {
+  background: yellow;
+}
+
+.bad {
+  background: purple;
+  color: white;
+}
+
+@keyframes loading {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(180deg);
+  }
+}
