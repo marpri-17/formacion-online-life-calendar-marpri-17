@@ -10,16 +10,27 @@ class App extends React.Component {
     this.state = {
       actualDate: "",
       userData: [{
-        "2019-10-25": "bad"
+        id: "2019-10-25",
+        mood: "bad",
+        message: ""
       }, {
-        "2019-10-29": "good",
-        "message": "Having"
+        id: "2019-10-29",
+        mood: "good",
+        message: "Having"
       }, {
-        "2019-10-28": "bad"
+        id: "2019-10-30",
+        mood: "good",
+        message: "Having"
       },
       {
-        "2019-10-31": "good",
-        "message": "It's Hallowen!"
+        id: "2019-10-29",
+        mood: "good",
+        message: "It's Hallowen!"
+      },
+      {
+        id: "2019-11-01",
+        mood: "bad",
+        message: ""
       }]
     }
 

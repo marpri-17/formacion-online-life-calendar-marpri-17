@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../stylesheets/EditorForm.scss';
+import Editor from './Editor';
 
 class EditorForm extends React.Component {
     constructor(props) {
@@ -10,6 +11,7 @@ class EditorForm extends React.Component {
             mood: "",
             message: "",
             showMessage: false,
+            isDateSaved: false,
         }
         this.buttonSubmit = React.createRef();
         this.buttonReturn = React.createRef();
@@ -17,7 +19,13 @@ class EditorForm extends React.Component {
         this.handleShowMessage = this.handleShowMessage.bind(this);
         this.handleUserMessageInput = this.handleUserMessageInput.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.renderSavedData = this.renderSavedData.bind(this);
     }
+    renderSavedData() {
+        const { userData } = this.props;
+        console.log(userData)
+    }
+
 
     handleChangeDate(ev) {
         const { userData } = this.props;
@@ -28,10 +36,13 @@ class EditorForm extends React.Component {
             return dateKey;
         })
         if (datesSavedByUser.includes(dateSelected)) {
-            console.log("Ya existe esta fecha")
+            this.setState({
+                isDateSaved: true,
+            })
         } else {
             this.setState({
                 date: dateSelected,
+                isDateSaved: false,
             })
         };
     }
@@ -65,9 +76,13 @@ class EditorForm extends React.Component {
         const { handleSaveData } = this.props;
         ev.preventDefault();
         const { date, mood, message } = this.state;
-        const newDay = { [date]: mood, "message": message }
+        const newDay = { id: date, mood: mood, message: message }
         const buttonReturn = this.buttonReturn.current;
         buttonReturn.innerHTML = "volver"
+        this.setState({
+            showMessage: false,
+            isDateSaved: true,
+        })
         return handleSaveData(newDay)
 
     }
@@ -80,21 +95,24 @@ class EditorForm extends React.Component {
                 <p>Add new mood for Today</p>
                 <p>{actualDate}</p>
                 <label htmlFor="selected_date">Fecha</label>
-                <input type="date" className="editor__form_inputdate" defaultValue={actualDate} name="selected_date" onChange={this.handleChangeDate} />
-                {(this.state.date !== "") ? <>
-                    <label htmlFor="mood" className="editor__form_moodtitle">Estado de ánimo
-                        <label ><input type="radio" id="mood good" className="mood__radio" name="mood" onChange={this.handleShowMessage} value="good" />:)</label>
-                        <label><input type="radio" id="mood bad" className="mood__radio" name="mood" onChange={this.handleShowMessage} value="bad" />:(</label>
-                    </label>
-                </> : ""}
-                {(this.state.showMessage) ?
-                    <label htmlFor="mood_message">Mensaje
-                    <input type="text" name="mood_message" onChange={this.handleUserMessageInput} />
-                    </label>
-                    : ""
-                }
-                <button to="/" className="editor__form_buttonsubmit" onClick={this.handleSubmit} ref={this.buttonSubmit} disabled > guardar</button>
-                <Link to="/" ref={this.buttonReturn}>cancelar</Link>
+                <input type="date" className="editor__form_inputdate" name="selected_date" onChange={this.handleChangeDate} />
+                {
+                    (this.state.isDateSaved === true) ? this.renderSavedData() :
+                        (this.state.date !== "") ? <>
+                            <label htmlFor="mood" className="editor__form_moodtitle">Estado de ánimo
+                                <label ><input type="radio" id="mood good" className="mood__radio" name="mood" onChange={this.handleShowMessage} value="good" />:)</label>
+                                <label><input type="radio" id="mood bad" className="mood__radio" name="mood" onChange={this.handleShowMessage} value="bad" />:(</label>
+                            </label>
+                            {(this.state.showMessage) ?
+                                <label htmlFor="mood_message">Mensaje
+                                <input type="text" name="mood_message" onChange={this.handleUserMessageInput} />
+                                </label>
+                                : ""}
+                            <button to="/" className="editor__form_buttonsubmit" onClick={this.handleSubmit} ref={this.buttonSubmit} disabled > guardar</button>
+                        </> : ""}
+
+
+                <Link to="/" ref={this.buttonReturn} className="editor__form__returnbutton">cancelar</Link>
 
             </form>
         )
@@ -103,3 +121,4 @@ class EditorForm extends React.Component {
 
 
 export default EditorForm;
+
