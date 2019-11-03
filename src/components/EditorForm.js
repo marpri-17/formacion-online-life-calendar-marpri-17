@@ -15,6 +15,7 @@ class EditorForm extends React.Component {
         }
         this.buttonSubmit = React.createRef();
         this.buttonReturn = React.createRef();
+        this.form = React.createRef();
         this.handleChangeDate = this.handleChangeDate.bind(this);
         this.handleShowMessage = this.handleShowMessage.bind(this);
         this.handleUserMessageInput = this.handleUserMessageInput.bind(this);
@@ -24,22 +25,22 @@ class EditorForm extends React.Component {
     renderSavedData() {
         const { userData } = this.props;
         console.log(userData)
+        return (<p>Detalles guardados</p>)
     }
 
 
     handleChangeDate(ev) {
         const { userData } = this.props;
         const dateSelected = ev.target.value;
-        const datesSavedByUser = userData.map(date => {
-            const dateKeys = Object.keys(date);
-            const dateKey = dateKeys[0].toString();
-            return dateKey;
-        })
+        const datesSavedByUser = userData.map(date => date.id)
+        console.log(datesSavedByUser)
         if (datesSavedByUser.includes(dateSelected)) {
+            console.log("está guardada")
             this.setState({
                 isDateSaved: true,
             })
         } else {
+            console.log("nueva")
             this.setState({
                 date: dateSelected,
                 isDateSaved: false,
@@ -83,6 +84,8 @@ class EditorForm extends React.Component {
             showMessage: false,
             isDateSaved: true,
         })
+        // const form = this.form.current;
+        // form.reset();
         return handleSaveData(newDay)
 
     }
@@ -91,7 +94,7 @@ class EditorForm extends React.Component {
         console.log(this.props)
         const { actualDate } = this.props;
         return (
-            <form onSubmit={this.handleSubmit} className="editor__form">
+            <form className="editor__form" ref={this.form} onSubmit={this.handleSubmit}>
                 <p>Add new mood for Today</p>
                 <p>{actualDate}</p>
                 <label htmlFor="selected_date">Fecha</label>
@@ -108,7 +111,7 @@ class EditorForm extends React.Component {
                                 <input type="text" name="mood_message" onChange={this.handleUserMessageInput} />
                                 </label>
                                 : ""}
-                            <button to="/" className="editor__form_buttonsubmit" onClick={this.handleSubmit} ref={this.buttonSubmit} disabled > guardar</button>
+                            <button to="/" className="editor__form_buttonsubmit" ref={this.buttonSubmit} disabled > guardar</button>
                         </> : ""}
 
 

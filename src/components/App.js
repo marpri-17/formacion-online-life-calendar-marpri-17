@@ -23,7 +23,7 @@ class App extends React.Component {
         message: "Having"
       },
       {
-        id: "2019-10-29",
+        id: "2019-10-31",
         mood: "good",
         message: "It's Hallowen!"
       },
@@ -64,6 +64,7 @@ class App extends React.Component {
   }
 
   handleSaveData(newDayConfiguredByUser) {
+    debugger;
     const { userData } = this.state;
     const newUserData = userData.concat(newDayConfiguredByUser);
     console.log(newUserData)
@@ -82,6 +83,7 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.userData)
     return (
       <div className="App">
         {(this.state.actualDate) ?

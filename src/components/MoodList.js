@@ -3,16 +3,14 @@ import { Link } from 'react-router-dom';
 import '../stylesheets/moodlist.scss'
 
 function renderMoodinIcon(moodWithDate) {
-    const date = Object.keys(moodWithDate);
-    const dateKey = date[0].toString(); // Asegurarse de que la fecha sea siempre la primera propiedad del objeto
-    if (moodWithDate[dateKey] === "good") {
-        return <li key={dateKey} >
+    if (moodWithDate.mood === "good") {
+        return <li key={moodWithDate.id} >
             <div className="mood__face good">
                 <p className="mood__face_facial">:)</p>
             </div>
         </li>
-    } else if (moodWithDate[dateKey] === "bad") {
-        return <li key={dateKey}>
+    } else if (moodWithDate.mood === "bad") {
+        return <li key={moodWithDate.id}>
             <div className="mood__face bad">
                 <p className="mood__face_facial">:(</p>
             </div>
