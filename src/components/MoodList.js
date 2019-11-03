@@ -27,6 +27,7 @@ const MoodList = (props) => {
         <ul className="mood__list">
             {props.userData.map(date => renderMoodinIcon(date))}
         </ul>
+        <p className="editor__form_today"> {props.actualDate}</p>
 
     </section>)
 }

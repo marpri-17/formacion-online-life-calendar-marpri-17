@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../stylesheets/EditorForm.scss';
-import Editor from './Editor';
+import Details from './Details';
 
 class EditorForm extends React.Component {
     constructor(props) {
@@ -23,9 +23,10 @@ class EditorForm extends React.Component {
         this.renderSavedData = this.renderSavedData.bind(this);
     }
     renderSavedData() {
+        debugger;
         const { userData } = this.props;
-        console.log(userData)
-        return (<p>Detalles guardados</p>)
+        const dayToRender = userData.find(day => day.id === this.state.date)
+        return (<Details dayToRender={dayToRender}>Detalles guardados</Details>)
     }
 
 
@@ -36,7 +37,10 @@ class EditorForm extends React.Component {
         console.log(datesSavedByUser)
         if (datesSavedByUser.includes(dateSelected)) {
             console.log("está guardada")
+            const buttonReturn = this.buttonReturn.current;
+            buttonReturn.innerHTML = "<i class='fas fa-chevron-circle-left backIcon'></i>volver"
             this.setState({
+                date: dateSelected,
                 isDateSaved: true,
             })
         } else {
@@ -69,17 +73,16 @@ class EditorForm extends React.Component {
     handleUserMessageInput(ev) {
         this.setState({
             message: ev.target.value
-        }, () => console.log(this.state))
+        })
     }
 
     handleSubmit(ev) {
-        debugger
         const { handleSaveData } = this.props;
         ev.preventDefault();
         const { date, mood, message } = this.state;
         const newDay = { id: date, mood: mood, message: message }
         const buttonReturn = this.buttonReturn.current;
-        buttonReturn.innerHTML = "volver"
+        buttonReturn.innerHTML = "<i class='fas fa-chevron-circle-left backIcon'></i>volver"
         this.setState({
             showMessage: false,
             isDateSaved: true,
@@ -91,12 +94,11 @@ class EditorForm extends React.Component {
     }
 
     render() {
-        console.log(this.props)
         const { actualDate } = this.props;
         return (
             <form className="editor__form" ref={this.form} onSubmit={this.handleSubmit}>
                 <p>Add new mood for Today</p>
-                <p>{actualDate}</p>
+                <p> Hoy es <small className="editor__form_today">{actualDate}</small></p>
                 <label htmlFor="selected_date">Fecha</label>
                 <input type="date" className="editor__form_inputdate" name="selected_date" onChange={this.handleChangeDate} />
                 {
@@ -115,7 +117,7 @@ class EditorForm extends React.Component {
                         </> : ""}
 
 
-                <Link to="/" ref={this.buttonReturn} className="editor__form__returnbutton">cancelar</Link>
+                <Link to="/" ref={this.buttonReturn} className="editor__form_returnbutton">cancelar</Link>
 
             </form>
         )

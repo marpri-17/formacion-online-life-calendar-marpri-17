@@ -16,11 +16,11 @@ class App extends React.Component {
       }, {
         id: "2019-10-29",
         mood: "good",
-        message: "Having"
+        message: "Otro día programando :D"
       }, {
         id: "2019-10-30",
         mood: "good",
-        message: "Having"
+        message: "Gato!"
       },
       {
         id: "2019-10-31",
@@ -48,7 +48,6 @@ class App extends React.Component {
     const currentDay = getYear + "-" + getMonth + "-" + getDay;
     console.log(currentDay)
     const savedData = JSON.parse(localStorage.getItem("LSuserData"));
-    console.log(savedData)
     savedData ? this.setState({
       actualDate: currentDay,
       userData: savedData
@@ -75,7 +74,7 @@ class App extends React.Component {
   }
 
   renderMoodList() {
-    return (<MoodList userData={this.state.userData} />)
+    return (<MoodList userData={this.state.userData} actualDate={this.state.actualDate} />)
   }
 
   renderFormDay() {
@@ -83,7 +82,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.userData)
     return (
       <div className="App">
         {(this.state.actualDate) ?
